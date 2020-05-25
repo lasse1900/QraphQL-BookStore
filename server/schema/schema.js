@@ -8,16 +8,16 @@ const BookType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
+    pages: { type: GraphQLString },
     genre: { type: GraphQLString }
   })
 });
 
-
 // dummy data
 var books = [
-  { name: 'Name of the wind', genre: 'Fantasy', id: '1' },
-  { name: 'Howto play ball', genre: 'Sports', id: '2' },
-  { name: 'Eleanor Roosevelt\'s time', genre: 'Histore', id: '3' },
+  { name: 'Name of the wind', genre: 'Fantasy', page: 504, id: '1' },
+  { name: 'Howto play ball', genre: 'Sports', pages: 200, id: '2' },
+  { name: 'Eleanor Roosevelt\'s time', genre: 'Histore', pages: 195, id: '3' },
 ];
 
 const RootQuery = new GraphQLObjectType({
@@ -27,7 +27,6 @@ const RootQuery = new GraphQLObjectType({
       type: BookType,
       args: { id: { type: GraphQLString } },
       resolve(parent, args) {
-        // code to get data from db
         return _.find(books, { id: args.id });
       }
     }
