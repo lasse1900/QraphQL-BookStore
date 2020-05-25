@@ -5,7 +5,8 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLSchema,
-  GraphQLID
+  GraphQLID,
+  GraphQLInt
 } = graphql;
 
 const BookType = new GraphQLObjectType({
@@ -17,11 +18,26 @@ const BookType = new GraphQLObjectType({
   })
 });
 
+const AuthorType = new GraphQLObjectType({
+  name: 'Author',
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    age: { type: GraphQLInt }
+  })
+});
+
 // dummy data
 var books = [
   { name: 'Name of the wind', genre: 'Fantasy', id: '1' },
   { name: 'Howto play ball', genre: 'Sports', id: '2' },
   { name: 'Eleanor Roosevelt\'s time', genre: 'Histore', id: '3' },
+];
+
+var authors = [
+  { name: 'Patric Rooney', age: 44, id: '1' },
+  { name: 'Tim Hill', age: 29, id: '2' },
+  { name: 'E.Roosevelt', age: 74, id: '3' },
 ];
 
 const RootQuery = new GraphQLObjectType({
@@ -32,6 +48,13 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return _.find(books, { id: args.id });
+      }
+    },
+    author: {
+      type: AuthorType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return _.find(authors, { id: args.id })
       }
     }
   }
